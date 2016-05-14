@@ -4,9 +4,6 @@ PeerJS VoiceChat
 Installation
 ---
 ```bash
-git clone https://github.com/59naga/peerjs-voicechat.git
-cd peerjs-voicechat
-
 npm install
 ```
 
@@ -18,4 +15,4 @@ npm start
 
 License
 ---
-[MIT](http://59naga.mit-license.org/)
+[MIT](https://opensource.org/licenses/MIT)
