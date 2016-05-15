@@ -75,20 +75,26 @@ peerServer.on('connection', (key) => {
     io.emit('keys', channels[selectedChannelIndex]);
 });
 
-peerServer.on('disconnect', (key) => {
-    var currentChannel = [];
-    var index = channels.forEach(function (channel, channelIdex) {
-        channel.forEach(function (keyIndex, index) {
-            if (key == keyIndex) {
-                currentChannel = channelIdex;
-                return index;
+var searchIndexes;
+function getIndexByKey(searchKey) {
+
+    channels.forEach(function(channel, channelIndex) {
+        channel.forEach(function(key, keyIndex) {
+            if (key == searchKey) {
+                searchIndexes = [channelIndex, keyIndex]
             }
         });
     });
 
-    if (index > -1) {
-        keys.splice(index, 1);
-    }
+}
+
+peerServer.on('disconnect', (key) => {
+    var currentChannel = [];
+
+    getIndexByKey(key);
+
+    channels[searchIndexes[0]].splice(searchIndexes[1], 1);
+
     console.log('disconnect', key);
 
     io.emit('keys', channels[currentChannel]);
