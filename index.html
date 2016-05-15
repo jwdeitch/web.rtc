@@ -25,7 +25,7 @@
 
             socket.on('keys', function (keys) {
                 var audios = document.querySelector('#audios');
-                audios.innerHTML = '';
+                audios.innerHTML = keys.length;
 
                 var index = keys.indexOf(socket.id);
                 if (index > -1) {
@@ -34,7 +34,7 @@
                 keys.forEach(function (key) {
                     var call = peer.call(key, stream);
                     if (call === undefined) {
-                        console.log(key + 'なんて居ません');
+                        console.log("Problem with peer " + key);
                         return;
                     }
                     call.on('stream', function (remoteStream) {
