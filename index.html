@@ -44,10 +44,11 @@
                     call.on('stream', function (remoteStream) {
                         var audio = new Audio;
                         audio.src = URL.createObjectURL(remoteStream);
-                        audio.controls = true;
+                        audio.controls = false;
+                        audio.id = key;
                         audio.play();
 
-                        $('.peers').append(audio);
+                        $('.peers').append(audio).append();
                     });
                 });
             });
