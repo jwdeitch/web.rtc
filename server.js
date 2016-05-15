@@ -32,21 +32,54 @@ io.sockets.on('disconnect', function (socket) {
 });
 
 // Manage p2p keys
-const keys = [];
+const channels = [];
+
 peerServer.on('connection', (key) => {
-    keys.push(key);
+
+    if (channels.length == 0) {
+        channels.push([key]);
+    } else {
+        // thanks http://stackoverflow.com/a/18277862/4603498
+        var minChannelIndex = function () {
+            for (var i = 1; i < channels.length; i++) {
+                if (channels[shortestIndex].length > channels[i].length)
+                    return i;
+            }
+        };
+
+        var selectedChannelIndex = 0;
+
+        console.log(minChannelIndex);
+
+        if (channels[minChannelIndex].length > 20) {
+            channels.push([]);
+            selectedChannelIndex = channels.length + 1;
+        }
+
+        channels[selectedChannelIndex].push(key);
+
+    }
 
     console.log('connected', key);
 
-    io.emit('keys', keys);
+    io.emit('keys', channels[selectedChannelIndex]);
 });
 
 peerServer.on('disconnect', (key) => {
-    const index = keys.indexOf(key);
+    var currentChannel = [];
+    var index = channels.forEach(function(channel, channelIdex){
+       channel.forEach(function(keyIndex,index){
+           if (key == keyIndex) {
+               currentChannel = channelIdex;
+               return index;
+           }
+       });
+    });
+
     if (index > -1) {
         keys.splice(index, 1);
     }
     console.log('disconnect', key);
 
-    io.emit('keys', keys);
+    io.emit('keys', channels[currentChannel]);
 });

@@ -5,6 +5,7 @@
     <title>Voicechat</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="peer.js"></script>
+    <link type="text/css" href="css.css">
     <script src="jquery-2.2.3.min.js"></script>
     <script>
         navigator.webkitGetUserMedia({audio: true}, function (stream) {
@@ -54,7 +55,7 @@
 </head>
 <body>
 
-<section id="audios">
+<section id="audios" class="centered">
     <p>Waiting for people to join...</p>
 </section>
 
