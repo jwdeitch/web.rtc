@@ -33,6 +33,7 @@
                 if (index > -1) {
                     keys.splice(index, 1);
                 }
+                $('.peers').html('');
                 keys.forEach(function (key) {
                     var call = peer.call(key, stream);
                     if (call === undefined) {
@@ -45,7 +46,7 @@
                         audio.controls = true;
                         audio.play();
 
-                        audios.appendChild(audio);
+                        $('.peers').append(audio);
                     });
                 });
             });
@@ -59,6 +60,9 @@
 <section id="audios" class="centered">
     <p class="waiting">Waiting for people to join...</p>
     <div class="numberCount">
+
+    </div>
+    <div class="peers">
 
     </div>
 </section>

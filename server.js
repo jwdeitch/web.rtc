@@ -97,5 +97,5 @@ peerServer.on('disconnect', (key) => {
 
     console.log('disconnect', key);
 
-    io.emit('keys', channels[currentChannel]);
+    io.emit('keys', channels[searchIndexes[0]]);
 });
