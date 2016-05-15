@@ -57,6 +57,7 @@
             $('#audios').text('Failed to get local stream' + error);
         });
 
+        /*Thanks to http://codepen.io/GRSimon/pen/vbFle !!!! */
         $(document).on('click', '.speaker', function () {
             thisId = this.id;
             var getaudio = $('#' + thisId)[0];
@@ -65,20 +66,20 @@
             /* Global variable for the audio's status (off or on). It's a bit crude but it works for determining the status. */
 
             /* Touchend is necessary for mobile devices, click alone won't work */
-            if (!$('.speaker').hasClass("speakerplay")) {
+            if (!$(this).hasClass("speakerplay")) {
                 if (audiostatus == 'off') {
-                    $('.speaker').addClass('speakerplay');
+                    $(this).addClass('speakerplay');
                     getaudio.load();
                     getaudio.play();
                     audiostatus = 'off';
                     return false;
                 } else if (audiostatus == 'off') {
-                    $('.speaker').addClass('speakerplay');
+                    $(this).addClass('speakerplay');
                     getaudio.play()
                 }
-            } else if ($('.speaker').hasClass("speakerplay")) {
+            } else if ($(this).hasClass("speakerplay")) {
                 getaudio.pause();
-                $('.speaker').removeClass('speakerplay');
+                $(this).removeClass('speakerplay');
                 audiostatus = 'off';
             }
         });
