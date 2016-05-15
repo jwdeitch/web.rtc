@@ -48,13 +48,41 @@
                         audio.id = key;
                         audio.play();
 
-                        $('.peers').append(audio).append();
+                        $('.peers').append(audio).append("<div id=" + key + " class='speaker speakerplay'></div>");
+
                     });
                 });
             });
         }, function (error) {
             $('#audios').text('Failed to get local stream' + error);
         });
+
+        $(document).on('click', '.speaker', function () {
+            thisId = this.id;
+            var getaudio = $('#' + thisId)[0];
+            /* Get the audio from the player (using the player's ID), the [0] is necessary */
+            var audiostatus = 'off';
+            /* Global variable for the audio's status (off or on). It's a bit crude but it works for determining the status. */
+
+            /* Touchend is necessary for mobile devices, click alone won't work */
+            if (!$('.speaker').hasClass("speakerplay")) {
+                if (audiostatus == 'off') {
+                    $('.speaker').addClass('speakerplay');
+                    getaudio.load();
+                    getaudio.play();
+                    audiostatus = 'off';
+                    return false;
+                } else if (audiostatus == 'off') {
+                    $('.speaker').addClass('speakerplay');
+                    getaudio.play()
+                }
+            } else if ($('.speaker').hasClass("speakerplay")) {
+                getaudio.pause();
+                $('.speaker').removeClass('speakerplay');
+                audiostatus = 'off';
+            }
+        });
+
     </script>
 </head>
 <body>
