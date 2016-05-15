@@ -8,6 +8,7 @@
     <link type="text/css" rel="stylesheet" href="css.css">
     <script src="jquery-2.2.3.min.js"></script>
     <script>
+        $('.numberCount').hide();
         navigator.webkitGetUserMedia({audio: true}, function (stream) {
             var peer;
             var socket = io();
@@ -26,7 +27,7 @@
 
             socket.on('keys', function (keys) {
                 var audios = document.querySelector('#audios');
-                $('.numberCount').text(keys.length);
+                $('.numberCount').html(keys.length + " <p class='part'>participant(s)</p>").show();
                 $('.waiting').hide();
 
                 var index = keys.indexOf(socket.id);
@@ -60,7 +61,6 @@
 <section id="audios" class="centered">
     <p class="waiting">Waiting for people to join...</p>
     <div class="numberCount">
-
     </div>
     <div class="peers">
 
