@@ -62,7 +62,7 @@ peerServer.on('connection', (key) => {
         // thanks http://stackoverflow.com/a/18277862/4603498
         var minChannelIndex = indexOfMax(channels);
 
-        if (channels[minChannelIndex].length > 20) {
+        if (channels[minChannelIndex].length > 10) {
             channels.push([]);
             selectedChannelIndex = channels.length + 1;
         }
