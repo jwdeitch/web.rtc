@@ -8,7 +8,9 @@
     <link type="text/css" rel="stylesheet" href="css.css">
     <script src="jquery-2.2.3.min.js"></script>
     <script>
-        $('.numberCount').hide();
+        $(document).ready(function () {
+            $('.numberCount').hide();
+        });
         navigator.webkitGetUserMedia({audio: true}, function (stream) {
             var peer;
             var socket = io();
@@ -96,6 +98,8 @@
 
     </div>
 </section>
-
+<div id="footer">
+    Peer to peer voice chat using webRTC; No voice data passes through a server.
+</div>
 </body>
 </html>
