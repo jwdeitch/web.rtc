@@ -34,22 +34,33 @@ io.sockets.on('disconnect', function (socket) {
 // Manage p2p keys
 const channels = [];
 
-peerServer.on('connection', (key) => {
+// thanks http://stackoverflow.com/a/11301464/4603498
+var selectedChannelIndex = 0;
+function indexOfMax(arr) {
+    if (arr.length === 0) {
+        return -1;
+    }
 
+    var max = arr[0];
+    var maxIndex = 0;
+
+    for (var i = 1; i < arr.length; i++) {
+        if (arr[i].length > max) {
+            maxIndex = i;
+            max = arr[i].length;
+        }
+    }
+
+    return maxIndex;
+}
+
+peerServer.on('connection', (key) => {
     if (channels.length == 0) {
         channels.push([key]);
+        selectedChannelIndex = 0;
     } else {
         // thanks http://stackoverflow.com/a/18277862/4603498
-        var minChannelIndex = function () {
-            for (var i = 1; i < channels.length; i++) {
-                if (channels[shortestIndex].length > channels[i].length)
-                    return i;
-            }
-        };
-
-        var selectedChannelIndex = 0;
-
-        console.log(minChannelIndex);
+        var minChannelIndex = indexOfMax(channels);
 
         if (channels[minChannelIndex].length > 20) {
             channels.push([]);
@@ -59,7 +70,6 @@ peerServer.on('connection', (key) => {
         channels[selectedChannelIndex].push(key);
 
     }
-
     console.log('connected', key);
 
     io.emit('keys', channels[selectedChannelIndex]);
@@ -67,13 +77,13 @@ peerServer.on('connection', (key) => {
 
 peerServer.on('disconnect', (key) => {
     var currentChannel = [];
-    var index = channels.forEach(function(channel, channelIdex){
-       channel.forEach(function(keyIndex,index){
-           if (key == keyIndex) {
-               currentChannel = channelIdex;
-               return index;
-           }
-       });
+    var index = channels.forEach(function (channel, channelIdex) {
+        channel.forEach(function (keyIndex, index) {
+            if (key == keyIndex) {
+                currentChannel = channelIdex;
+                return index;
+            }
+        });
     });
 
     if (index > -1) {
