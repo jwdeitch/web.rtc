@@ -27,6 +27,10 @@
                 });
             });
 
+            socket.on('heartbeat', function(){
+               console.log('Heartbeat');
+            });
+
             socket.on('keys', function (keys) {
                 var audios = document.querySelector('#audios');
                 $('.numberCount').html(keys.length + " <p class='part'>participant(s)</p>").show();
