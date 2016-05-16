@@ -7,6 +7,9 @@ const createPeerServer = require('peer').ExpressPeerServer;
 // Environment
 const port = process.env.PORT || 8080;
 
+createIo.set('close timeout', 5);
+createIo.set('heartbeat timeout', 15);
+
 // Routes
 const app = express();
 const httpServer = createHttpServer(app);
@@ -71,10 +74,6 @@ peerServer.on('connection', (key) => {
 
     }
     console.log('connected', key);
-
-    setInterval(function(){
-        io.emit('heartbeat', 'heartbeat');
-    }, 5000);
 
     io.emit('keys', channels[selectedChannelIndex]);
 });
