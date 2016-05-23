@@ -1,15 +1,23 @@
 // Dependencies
 const express = require('express');
-const createHttpServer = require('http').createServer;
+
+var fs = require('fs');
+const creds = {
+    cert: fs.readFileSync('/home/ubuntu/letsencrypt/etc/live/rtc.fm/fullchain.pem'),
+    key: fs.readFileSync('/home/ubuntu/letsencrypt/etc/live/rtc.fm/privkey.pem')
+};
+
+const createHttpServer = require('https').createServer;
+
 const createIo = require('socket.io');
 const createPeerServer = require('peer').ExpressPeerServer;
 
 // Environment
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 443;
 
 // Routes
 const app = express();
-const httpServer = createHttpServer(app);
+const httpServer = createHttpServer(creds,app);
 const io = createIo(httpServer);
 const peerServer = createPeerServer(httpServer);
 
